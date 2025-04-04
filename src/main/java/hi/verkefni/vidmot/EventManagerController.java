@@ -1,8 +1,12 @@
 package hi.verkefni.vidmot;
 
 import java.io.IOException;
+import java.time.ZoneId;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import hi.verkefni.vinnsla.EventModel;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -14,8 +18,11 @@ import javafx.scene.layout.Pane;
 import java.util.Calendar;
 import java.util.Calendar.Builder;
 
+
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class EventManagerController {
     private EventView midja;
@@ -24,6 +31,8 @@ public class EventManagerController {
     private HBox mainView;
     @FXML
     private HBox calendarNode;
+    @FXML
+    private VBox eventdialog;
 
     private VBox mondayBox;
     private VBox tuesdayBox;
@@ -52,8 +61,7 @@ public class EventManagerController {
 
     @FXML
     private void nytt() {
-        midja = new EventView();
-        mainView.getChildren().add(midja);
+        generateEvent();
     }
 
     @FXML
@@ -66,8 +74,6 @@ public class EventManagerController {
         today = Calendar.getInstance();
         firstOfMonth = Calendar.getInstance();
         firstOfMonth.set(firstOfMonth.DATE, 1);
-        System.out.println(today.getTime());
-        System.out.println(firstOfMonth.getTime());
         mondayBox = new VBox();
         tuesdayBox = new VBox();
         wednesdayBox = new VBox();
@@ -128,5 +134,24 @@ public class EventManagerController {
         today.roll(today.MONTH, -1);
         firstOfMonth.roll(firstOfMonth.MONTH, -1);
         generateMonth();
+    }
+    @FXML
+    public void generateEvent(){
+        eventdialog.getChildren().clear();
+        eventdialog.getChildren().add(new TextField("Nafn viðburðar."));
+        eventdialog.getChildren().add(new DatePicker(
+        today.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
+        eventdialog.getChildren().add(new TextField("Lýsing á viðburði"));
+
+
+        Button saveButton = new Button("Vista.");
+        Button deleteButton = new Button("Eyða.");
+        HBox buttonContainer = new HBox();
+        buttonContainer.setAlignment(Pos.CENTER_RIGHT);
+        buttonContainer.getChildren().add(saveButton);
+        buttonContainer.getChildren().add(deleteButton);
+        eventdialog.getChildren().add(buttonContainer);
+
+        
     }
 }

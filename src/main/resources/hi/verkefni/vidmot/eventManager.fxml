@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -28,6 +29,11 @@
                      </children>
                   </HBox>
                   <HBox fx:id="calendarNode" prefHeight="100.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+            <VBox fx:id="eventdialog" prefHeight="200.0" prefWidth="360.0">
+               <children>
+                  <Label text="Test" />
                </children>
             </VBox>
          </children>
