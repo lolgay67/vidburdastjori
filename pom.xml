@@ -4,6 +4,14 @@
     <groupId>hi.verkefni</groupId>
     <artifactId>vidburdastjori</artifactId>
     <version>0.1</version>
+    <licenses>
+      <license>
+        <name>MIT</name>
+        <url>https://opensource.org/license/mit</url>
+        <distribution>repo</distribution>
+        <comments>A basic catchall opensource license.</comments>
+      </license>
+    </licenses>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
