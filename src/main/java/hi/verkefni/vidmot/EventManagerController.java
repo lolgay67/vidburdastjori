@@ -209,6 +209,7 @@ public class EventManagerController {
             @Override
             public void handle(ActionEvent e) {
                 delete(text.getText());
+                generateMonth();
             }
         });
         HBox buttonContainer = new HBox();
@@ -264,6 +265,7 @@ public class EventManagerController {
             @Override
             public void handle(ActionEvent e) {
                 delete(name);
+                generateMonth();
             }
         });
         HBox buttonContainer = new HBox();
@@ -288,6 +290,7 @@ public class EventManagerController {
     }
     private void delete(String name){
         storageManager.removeStored(name);
+        eventDays = storageManager.getDateName();
     }
 
     public void Skemmtun() {
