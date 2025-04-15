@@ -21,7 +21,7 @@
                <menus>
                   <Menu mnemonicParsing="false" text="Skrá">
                      <items>
-                        <MenuItem mnemonicParsing="false" onAction="#generateEvent" text="Nýr Viðburður" />
+                        <MenuItem mnemonicParsing="false" onAction="#nytt" text="Nýr Viðburður" />
                         <MenuItem mnemonicParsing="false" text="Opna" />
                         <MenuItem mnemonicParsing="false" text="Loka" />
                         <MenuItem mnemonicParsing="false" onAction="#exit" text="Hætta" />
