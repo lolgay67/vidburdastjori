@@ -152,8 +152,11 @@ public class EventManagerController {
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Flokkar");
         MenuItem skemmtun = new MenuItem("Skemmtun");
+        skemmtun.setOnAction(e -> Flokkur());
         MenuItem vinna = new MenuItem("Vinna");
+        vinna.setOnAction(e -> Flokkur());
         MenuItem fundur = new MenuItem("Fundur");
+        fundur.setOnAction(e -> Flokkur());
         menuBar.getMenus().add(menu);
         menu.getItems().add(skemmtun);
         menu.getItems().add(vinna);
