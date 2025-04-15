@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import javafx.scene.control.*;
 
@@ -44,6 +45,7 @@ public class EventManagerController {
     private String[] dayStrings = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     private String[] flokkar = new String[]{"Skemmtun", "Vinna", "Fundur"};
     private StorageManager storageManager;
+    private HashMap<Calendar, String> eventDays;
 
     @FXML public void switchToLicense() throws IOException{
     App.setRoot("license");
@@ -73,7 +75,7 @@ public class EventManagerController {
         objects.add(day);
         objects.add(description);
         storageManager.store(objects);
-
+        eventDays = storageManager.getDateName();
     }
 
     @FXML
