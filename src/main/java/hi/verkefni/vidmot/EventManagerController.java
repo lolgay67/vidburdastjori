@@ -205,6 +205,12 @@ public class EventManagerController {
             }
         });
         Button deleteButton = new Button("Eyða.");
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                delete(text.getText());
+            }
+        });
         HBox buttonContainer = new HBox();
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Flokkar");
@@ -254,6 +260,12 @@ public class EventManagerController {
             }
         });
         Button deleteButton = new Button("Eyða.");
+        deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                delete(name);
+            }
+        });
         HBox buttonContainer = new HBox();
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Flokkar");
@@ -273,6 +285,9 @@ public class EventManagerController {
         buttonContainer.getChildren().add(menuBar);
         eventdialog.getChildren().add(buttonContainer);
 
+    }
+    private void delete(String name){
+        storageManager.removeStored(name);
     }
 
     public void Skemmtun() {
