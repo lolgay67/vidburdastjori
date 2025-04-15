@@ -3,25 +3,24 @@ package hi.verkefni.vidmot;
 import java.io.IOException;
 import java.time.ZoneId;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.event.EventHandler;
+
+
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import hi.verkefni.vinnsla.EventModel;
-import javafx.scene.layout.StackPane;
+
+
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import hi.verkefni.vidmot.EventView;
+
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+
 import java.util.Calendar;
-import java.util.Calendar.Builder;
+
 import javafx.scene.control.*;
 
 public class EventManagerController {
-    private EventView midja;
-    private EventManagerController events;
+
     @FXML
     private HBox mainView;
     @FXML
