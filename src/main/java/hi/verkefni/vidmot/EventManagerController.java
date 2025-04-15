@@ -9,7 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import hi.verkefni.vinnsla.EventModel;
 import hi.verkefni.vinnsla.StorageManager;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
