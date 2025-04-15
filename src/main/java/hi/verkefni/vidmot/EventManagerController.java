@@ -4,19 +4,16 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import hi.verkefni.vinnsla.StorageManager;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,7 +40,6 @@ public class EventManagerController {
 
     private Calendar today;
     private Calendar firstOfMonth;
-    private int offset = 0;
     private int[] monthArray = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private String[] dayStrings = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     private String[] flokkar = new String[]{"Skemmtun", "Vinna", "Fundur"};
