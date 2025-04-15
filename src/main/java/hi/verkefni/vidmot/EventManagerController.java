@@ -19,12 +19,6 @@ import java.util.Calendar;
 import java.util.Calendar.Builder;
 import javafx.scene.control.*;
 
-
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-
 public class EventManagerController {
     private EventView midja;
     private EventManagerController events;
@@ -50,6 +44,10 @@ public class EventManagerController {
     private int[] monthArray = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private String[] dayStrings = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     private String[] flokkar = new String[]{"Skemmtun", "Vinna", "Fundur"};
+
+    @FXML public void switchToLicense() throws IOException{
+    App.setRoot("license");
+    }
 
     @FXML
     private void dummy() {
