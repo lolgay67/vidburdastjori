@@ -12,7 +12,8 @@ import hi.verkefni.vinnsla.StorageManager;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-
+import javafx.scene.text.Text;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
@@ -29,7 +30,9 @@ public class EventManagerController {
     private HBox calendarNode;
     @FXML
     private VBox eventdialog;
-
+    @FXML 
+    private HBox buttonBox;
+ 
     private VBox mondayBox;
     private VBox tuesdayBox;
     private VBox wednesdayBox;
@@ -42,10 +45,11 @@ public class EventManagerController {
     private Calendar today;
     private Calendar firstOfMonth;
     private int[] monthArray = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    private String[] months = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"};
     private String[] dayStrings = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     private String[] flokkar = new String[]{"Skemmtun", "Vinna", "Fundur"};
-    private StorageManager storageManager;
-    private HashMap<Calendar, String> eventDays;
+    private StorageManager storageManager = new StorageManager();
+    private HashMap<Calendar, String> eventDays = new HashMap<Calendar, String>();
 
     @FXML public void switchToLicense() throws IOException{
     App.setRoot("license");
@@ -97,23 +101,50 @@ public class EventManagerController {
         days[4] = thursdayBox;
         days[5] = fridayBox;
         days[6] = saturdayBox;
+        generateMonth();
     }
 
     private void generateMonth(){
+        int year = firstOfMonth.get(firstOfMonth.YEAR);
+        int month = firstOfMonth.get(firstOfMonth.MONTH);
+        HashMap<Integer, String> events = new HashMap<Integer, String>();
+        for (Calendar cal : eventDays.keySet()) {
+            if(cal.get(cal.YEAR) == year){
+                if((cal.get(cal.MONTH)-1) == month){
+                    events.put(cal.get(cal.DAY_OF_MONTH), eventDays.get(cal));
+                }
+            }
+        }
         calendarNode.getChildren().clear();
+        buttonBox.getChildren().set(1, new Text(months[firstOfMonth.get(firstOfMonth.MONTH)]));
         for (VBox vBox : days) {
             vBox.getChildren().clear();
         }
-        int firstDay = firstOfMonth.get(firstOfMonth.DAY_OF_WEEK);
+        int firstDay = firstOfMonth.get(firstOfMonth.DAY_OF_WEEK)-1;
         for (int i = 0; i < dayStrings.length; i++) {
             days[i].getChildren().add(new Label(dayStrings[i]));
         }
         if(firstDay != 7){
             for (int i = (firstDay-1); i != -1; i--) {
-                days[i].getChildren().add(new Rectangle(20, 20, Paint.valueOf("ffffff")));
+                days[i].getChildren().add(new Rectangle(25, 25, Paint.valueOf("ffffff")));
         }}
-        for (int i = 0; i < daysInMonth(firstOfMonth.get(firstOfMonth.MONTH)); i++) {
-            days[firstDay%7].getChildren().add(new Button(""+(i+1)));
+        for (int j = 0; j < daysInMonth(firstOfMonth.get(firstOfMonth.MONTH)); j++) {
+            int i = j;
+            Button tempButton = new Button(""+(i+1));
+            if(events.containsKey((i+1))){
+                tempButton.setBackground(Background.fill(Paint.valueOf("#f2c2f2")));
+                tempButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override public void handle(ActionEvent e){
+                        generateEvent(events.get((i+1)));
+                    }});
+                }
+            else{
+                tempButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override public void handle(ActionEvent e){
+                        generateEvent();
+                    }});
+            }
+            days[firstDay%7].getChildren().add(tempButton);
             firstDay += 1;
         }
         
@@ -161,6 +192,55 @@ public class EventManagerController {
             @Override public void handle(ActionEvent e){
                 LocalDate tempDate = datePicker.getValue();
                 save(((Object)text.getText()), tempDate.getYear(), tempDate.getMonth().getValue(), tempDate.getDayOfMonth(), description.getText());
+                generateMonth();
+            }
+        });
+        Button deleteButton = new Button("Eyða.");
+        HBox buttonContainer = new HBox();
+        MenuBar menuBar = new MenuBar();
+        Menu menu = new Menu("Flokkar");
+        MenuItem skemmtun = new MenuItem("Skemmtun");
+        skemmtun.setOnAction(e -> Skemmtun());
+        MenuItem vinna = new MenuItem("Vinna");
+        vinna.setOnAction(e -> Vinna());
+        MenuItem fundur = new MenuItem("Fundur");
+        fundur.setOnAction(e -> Fundur());
+        menuBar.getMenus().add(menu);
+        menu.getItems().add(skemmtun);
+        menu.getItems().add(vinna);
+        menu.getItems().add(fundur);
+        buttonContainer.setAlignment(Pos.CENTER_RIGHT);
+        buttonContainer.getChildren().add(saveButton);
+        buttonContainer.getChildren().add(deleteButton);
+        buttonContainer.getChildren().add(menuBar);
+        eventdialog.getChildren().add(buttonContainer);
+
+        
+    }
+    @FXML
+    public void generateEvent(String name){
+        ArrayList<Object> details = storageManager.getStored(name);
+
+        eventdialog.getChildren().clear();
+        TextField text = new TextField(String.valueOf(details.get(0)));
+        eventdialog.getChildren().add(text);
+        DatePicker datePicker = new DatePicker(today.getTime().
+            toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        datePicker.setValue(LocalDate.of(
+        Integer.valueOf(String.valueOf(details.get(1)))    , 
+        Integer.valueOf(String.valueOf(details.get(2)))    , 
+        Integer.valueOf(String.valueOf(details.get(3)))));
+        eventdialog.getChildren().add(datePicker);
+        TextField description = new TextField(String.valueOf(details.get(4)));
+        eventdialog.getChildren().add(description);
+
+
+        Button saveButton = new Button("Vista.");
+        saveButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e){
+                LocalDate tempDate = datePicker.getValue();
+                save(((Object)text.getText()), tempDate.getYear(), tempDate.getMonth().getValue(), tempDate.getDayOfMonth(), description.getText());
+                generateMonth();
             }
         });
         Button deleteButton = new Button("Eyða.");
