@@ -1,13 +1,16 @@
 package hi.verkefni.vidmot;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.ZoneId;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import hi.verkefni.vinnsla.EventModel;
+import hi.verkefni.vinnsla.StorageManager;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
@@ -15,6 +18,8 @@ import javafx.scene.shape.Rectangle;
 import hi.verkefni.vidmot.EventView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Calendar.Builder;
 import javafx.scene.control.*;
@@ -44,6 +49,7 @@ public class EventManagerController {
     private int[] monthArray = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private String[] dayStrings = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     private String[] flokkar = new String[]{"Skemmtun", "Vinna", "Fundur"};
+    private StorageManager storageManager;
 
     @FXML public void switchToLicense() throws IOException{
     App.setRoot("license");
@@ -65,7 +71,13 @@ public class EventManagerController {
     }
 
     @FXML
-    private void save() {
+    private void save(Object nameString, int year, int month, int day) {
+        ArrayList<Object> objects = new ArrayList<Object>();
+        objects.add(nameString);
+        objects.add(year);
+        objects.add(month);
+        objects.add(day);
+        storageManager.store(objects);
 
     }
 
@@ -138,13 +150,22 @@ public class EventManagerController {
     @FXML
     public void generateEvent(){
         eventdialog.getChildren().clear();
-        eventdialog.getChildren().add(new TextField("Nafn viðburðar."));
-        eventdialog.getChildren().add(new DatePicker(
-        today.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
-        eventdialog.getChildren().add(new TextField("Lýsing á viðburði"));
+        TextField text = new TextField("Nafn viðburðar.");
+        eventdialog.getChildren().add(text);
+        DatePicker datePicker = new DatePicker(today.getTime().
+            toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        eventdialog.getChildren().add(datePicker);
+        TextField description = new TextField("Lýsing á viðburði");
+        eventdialog.getChildren().add(description);
 
 
         Button saveButton = new Button("Vista.");
+        saveButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e){
+                LocalDate tempDate = datePicker.getValue();
+                save(((Object)text.getText()), tempDate.getYear(), tempDate.getMonth().getValue(), tempDate.getDayOfMonth());
+            }
+        });
         Button deleteButton = new Button("Eyða.");
         HBox buttonContainer = new HBox();
         MenuBar menuBar = new MenuBar();

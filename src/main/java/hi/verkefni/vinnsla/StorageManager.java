@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Calendar;
 
 public class StorageManager {
-    HashMap<String, ArrayList<Object>> storage = new HashMap<String, ArrayList<Object>>();
+    private HashMap<String, ArrayList<Object>> storage = new HashMap<String, ArrayList<Object>>();
     public void store(ArrayList<Object> objects){
         storage.put(String.valueOf(objects.get(0)),objects);
     }
@@ -27,5 +27,8 @@ public class StorageManager {
             dateName.put(tempCalendar, String.valueOf(names));
         }
         return dateName;
+    }
+    public void removeStored(String name){
+        storage.remove(name);
     }
 }
