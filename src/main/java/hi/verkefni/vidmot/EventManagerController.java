@@ -30,9 +30,9 @@ public class EventManagerController {
     private HBox calendarNode;
     @FXML
     private VBox eventdialog;
-    @FXML 
+    @FXML
     private HBox buttonBox;
- 
+
     private VBox mondayBox;
     private VBox tuesdayBox;
     private VBox wednesdayBox;
@@ -44,15 +44,17 @@ public class EventManagerController {
 
     private Calendar today;
     private Calendar firstOfMonth;
-    private int[] monthArray = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    private String[] months = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"};
-    private String[] dayStrings = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-    private String[] flokkar = new String[]{"Skemmtun", "Vinna", "Fundur"};
+    private int[] monthArray = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    private String[] months = new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
+            "Nov", "Dec" };
+    private String[] dayStrings = new String[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+    private String[] flokkar = new String[] { "Skemmtun", "Vinna", "Fundur" };
     private StorageManager storageManager = new StorageManager();
     private HashMap<Calendar, String> eventDays = new HashMap<Calendar, String>();
 
-    @FXML public void switchToLicense() throws IOException{
-    App.setRoot("license");
+    @FXML
+    public void switchToLicense() throws IOException {
+        App.setRoot("license");
     }
 
     @FXML
@@ -62,7 +64,8 @@ public class EventManagerController {
 
     @FXML
     private void exit() {
-        System.exit(0);;
+        System.exit(0);
+        ;
     }
 
     @FXML
@@ -83,7 +86,7 @@ public class EventManagerController {
     }
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         today = Calendar.getInstance();
         firstOfMonth = Calendar.getInstance();
         firstOfMonth.set(firstOfMonth.DATE, 1);
@@ -104,13 +107,13 @@ public class EventManagerController {
         generateMonth();
     }
 
-    private void generateMonth(){
+    private void generateMonth() {
         int year = firstOfMonth.get(firstOfMonth.YEAR);
         int month = firstOfMonth.get(firstOfMonth.MONTH);
         HashMap<Integer, String> events = new HashMap<Integer, String>();
         for (Calendar cal : eventDays.keySet()) {
-            if(cal.get(cal.YEAR) == year){
-                if((cal.get(cal.MONTH)-1) == month){
+            if (cal.get(cal.YEAR) == year) {
+                if ((cal.get(cal.MONTH) - 1) == month) {
                     events.put(cal.get(cal.DAY_OF_MONTH), eventDays.get(cal));
                 }
             }
@@ -120,43 +123,46 @@ public class EventManagerController {
         for (VBox vBox : days) {
             vBox.getChildren().clear();
         }
-        int firstDay = firstOfMonth.get(firstOfMonth.DAY_OF_WEEK)-1;
+        int firstDay = firstOfMonth.get(firstOfMonth.DAY_OF_WEEK) - 1;
         for (int i = 0; i < dayStrings.length; i++) {
             days[i].getChildren().add(new Label(dayStrings[i]));
         }
-        if(firstDay != 7){
-            for (int i = (firstDay-1); i != -1; i--) {
+        if (firstDay != 7) {
+            for (int i = (firstDay - 1); i != -1; i--) {
                 days[i].getChildren().add(new Rectangle(25, 25, Paint.valueOf("ffffff")));
-        }}
+            }
+        }
         for (int j = 0; j < daysInMonth(firstOfMonth.get(firstOfMonth.MONTH)); j++) {
             int i = j;
-            Button tempButton = new Button(""+(i+1));
-            if(events.containsKey((i+1))){
+            Button tempButton = new Button("" + (i + 1));
+            if (events.containsKey((i + 1))) {
                 tempButton.setBackground(Background.fill(Paint.valueOf("#f2c2f2")));
                 tempButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override public void handle(ActionEvent e){
-                        generateEvent(events.get((i+1)));
-                    }});
-                }
-            else{
+                    @Override
+                    public void handle(ActionEvent e) {
+                        generateEvent(events.get((i + 1)));
+                    }
+                });
+            } else {
                 tempButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override public void handle(ActionEvent e){
+                    @Override
+                    public void handle(ActionEvent e) {
                         generateEvent();
-                    }});
+                    }
+                });
             }
-            days[firstDay%7].getChildren().add(tempButton);
+            days[firstDay % 7].getChildren().add(tempButton);
             firstDay += 1;
         }
-        
+
         calendarNode.getChildren().addAll(days);
-        
-        
+
     }
 
-    private int daysInMonth(int month){
-        
-        if (today.get(today.YEAR)%4==0){
-            if(month==1){
+    private int daysInMonth(int month) {
+
+        if (today.get(today.YEAR) % 4 == 0) {
+            if (month == 1) {
                 return 29;
             }
         }
@@ -164,34 +170,37 @@ public class EventManagerController {
     }
 
     @FXML
-    public void increaseOffset(){
+    public void increaseOffset() {
         today.roll(today.MONTH, 1);
         firstOfMonth.roll(firstOfMonth.MONTH, 1);
         generateMonth();
     }
+
     @FXML
-    public void decreaseOffset(){
+    public void decreaseOffset() {
         today.roll(today.MONTH, -1);
         firstOfMonth.roll(firstOfMonth.MONTH, -1);
         generateMonth();
     }
+
     @FXML
-    public void generateEvent(){
+    public void generateEvent() {
         eventdialog.getChildren().clear();
         TextField text = new TextField("Nafn viðburðar.");
         eventdialog.getChildren().add(text);
-        DatePicker datePicker = new DatePicker(today.getTime().
-            toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        DatePicker datePicker = new DatePicker(
+                today.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         eventdialog.getChildren().add(datePicker);
         TextField description = new TextField("Lýsing á viðburði");
         eventdialog.getChildren().add(description);
 
-
         Button saveButton = new Button("Vista.");
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e){
+            @Override
+            public void handle(ActionEvent e) {
                 LocalDate tempDate = datePicker.getValue();
-                save(((Object)text.getText()), tempDate.getYear(), tempDate.getMonth().getValue(), tempDate.getDayOfMonth(), description.getText());
+                save(((Object) text.getText()), tempDate.getYear(), tempDate.getMonth().getValue(),
+                        tempDate.getDayOfMonth(), description.getText());
                 generateMonth();
             }
         });
@@ -215,31 +224,32 @@ public class EventManagerController {
         buttonContainer.getChildren().add(menuBar);
         eventdialog.getChildren().add(buttonContainer);
 
-        
     }
+
     @FXML
-    public void generateEvent(String name){
+    public void generateEvent(String name) {
         ArrayList<Object> details = storageManager.getStored(name);
 
         eventdialog.getChildren().clear();
         TextField text = new TextField(String.valueOf(details.get(0)));
         eventdialog.getChildren().add(text);
-        DatePicker datePicker = new DatePicker(today.getTime().
-            toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        DatePicker datePicker = new DatePicker(
+                today.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         datePicker.setValue(LocalDate.of(
-        Integer.valueOf(String.valueOf(details.get(1)))    , 
-        Integer.valueOf(String.valueOf(details.get(2)))    , 
-        Integer.valueOf(String.valueOf(details.get(3)))));
+                Integer.valueOf(String.valueOf(details.get(1))),
+                Integer.valueOf(String.valueOf(details.get(2))),
+                Integer.valueOf(String.valueOf(details.get(3)))));
         eventdialog.getChildren().add(datePicker);
         TextField description = new TextField(String.valueOf(details.get(4)));
         eventdialog.getChildren().add(description);
 
-
         Button saveButton = new Button("Vista.");
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e){
+            @Override
+            public void handle(ActionEvent e) {
                 LocalDate tempDate = datePicker.getValue();
-                save(((Object)text.getText()), tempDate.getYear(), tempDate.getMonth().getValue(), tempDate.getDayOfMonth(), description.getText());
+                save(((Object) text.getText()), tempDate.getYear(), tempDate.getMonth().getValue(),
+                        tempDate.getDayOfMonth(), description.getText());
                 generateMonth();
             }
         });
@@ -263,16 +273,17 @@ public class EventManagerController {
         buttonContainer.getChildren().add(menuBar);
         eventdialog.getChildren().add(buttonContainer);
 
-        
     }
 
-    public void Skemmtun(){
-        
+    public void Skemmtun() {
+
     }
-    public void Vinna(){
-        
+
+    public void Vinna() {
+
     }
-    public void Fundur(){
-        
+
+    public void Fundur() {
+
     }
 }

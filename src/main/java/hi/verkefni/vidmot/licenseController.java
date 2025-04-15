@@ -6,7 +6,8 @@ import javafx.fxml.FXML;
 
 public class licenseController {
 
-    @FXML public void switchToMain() throws IOException{
+    @FXML
+    public void switchToMain() throws IOException {
         App.setRoot("eventManager");
     }
 }
