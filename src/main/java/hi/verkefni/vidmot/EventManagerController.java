@@ -65,12 +65,13 @@ public class EventManagerController {
     }
 
     @FXML
-    private void save(Object nameString, int year, int month, int day) {
+    private void save(Object nameString, int year, int month, int day, String description) {
         ArrayList<Object> objects = new ArrayList<Object>();
         objects.add(nameString);
         objects.add(year);
         objects.add(month);
         objects.add(day);
+        objects.add(description);
         storageManager.store(objects);
 
     }
@@ -157,7 +158,7 @@ public class EventManagerController {
         saveButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e){
                 LocalDate tempDate = datePicker.getValue();
-                save(((Object)text.getText()), tempDate.getYear(), tempDate.getMonth().getValue(), tempDate.getDayOfMonth());
+                save(((Object)text.getText()), tempDate.getYear(), tempDate.getMonth().getValue(), tempDate.getDayOfMonth(), description.getText());
             }
         });
         Button deleteButton = new Button("Eyða.");
