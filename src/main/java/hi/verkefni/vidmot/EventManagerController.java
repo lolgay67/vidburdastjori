@@ -15,18 +15,17 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import hi.verkefni.vidmot.EventView;
+
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Calendar.Builder;
+
 import javafx.scene.control.*;
 
 public class EventManagerController {
-    private EventView midja;
-    private EventManagerController events;
+
     @FXML
     private HBox mainView;
     @FXML
