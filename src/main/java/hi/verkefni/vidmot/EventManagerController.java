@@ -60,7 +60,7 @@ public class EventManagerController {
 
     @FXML
     private void exit() {
-        System.exit(1);
+        System.exit(0);;
     }
 
     @FXML
