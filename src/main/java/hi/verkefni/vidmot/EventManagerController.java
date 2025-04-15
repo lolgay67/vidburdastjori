@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import java.util.Calendar;
 import java.util.Calendar.Builder;
+import javafx.scene.control.*;
 
 
 import javafx.scene.control.Button;
@@ -48,6 +49,7 @@ public class EventManagerController {
     private int offset = 0;
     private int[] monthArray = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     private String[] dayStrings = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    private String[] flokkar = new String[]{"Skemmtun", "Vinna", "Fundur"};
 
     @FXML
     private void dummy() {
@@ -147,11 +149,25 @@ public class EventManagerController {
         Button saveButton = new Button("Vista.");
         Button deleteButton = new Button("Eyða.");
         HBox buttonContainer = new HBox();
+        MenuBar menuBar = new MenuBar();
+        Menu menu = new Menu("Flokkar");
+        MenuItem skemmtun = new MenuItem("Skemmtun");
+        MenuItem vinna = new MenuItem("Vinna");
+        MenuItem fundur = new MenuItem("Fundur");
+        menuBar.getMenus().add(menu);
+        menu.getItems().add(skemmtun);
+        menu.getItems().add(vinna);
+        menu.getItems().add(fundur);
         buttonContainer.setAlignment(Pos.CENTER_RIGHT);
         buttonContainer.getChildren().add(saveButton);
         buttonContainer.getChildren().add(deleteButton);
+        buttonContainer.getChildren().add(menuBar);
         eventdialog.getChildren().add(buttonContainer);
 
+        
+    }
+
+    public void Flokkur() {
         
     }
 }
