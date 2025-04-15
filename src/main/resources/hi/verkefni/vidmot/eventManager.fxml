@@ -44,6 +44,9 @@
                <font>
                   <Font size="14.0" />
                </font>
+               <HBox.margin>
+                  <Insets left="132.5" />
+               </HBox.margin>
             </Text>
          </children>
       </HBox>
