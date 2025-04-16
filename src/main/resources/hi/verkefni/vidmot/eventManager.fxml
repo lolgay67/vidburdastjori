@@ -22,15 +22,10 @@
                   <Menu mnemonicParsing="false" text="Skrá">
                      <items>
                         <MenuItem mnemonicParsing="false" onAction="#nytt" text="Nýr Viðburður" />
-                        <MenuItem mnemonicParsing="false" text="Opna" />
+                        <MenuItem mnemonicParsing="false" onAction="#vista" text="Vista" />
+                        <MenuItem mnemonicParsing="false" onAction="#open" text="Opna" />
                         <MenuItem mnemonicParsing="false" text="Loka" />
                         <MenuItem mnemonicParsing="false" onAction="#exit" text="Hætta" />
-                     </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Breyta">
-                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#dummy" text="Vista" />
-                        <MenuItem mnemonicParsing="false" text="Eyða" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Hjálp">

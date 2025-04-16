@@ -59,8 +59,9 @@ public class EventManagerController {
     }
 
     @FXML
-    private void dummy() {
-        System.out.println("dum");
+    private void open() {
+        storageManager.load();
+        generateMonth();
     }
 
     @FXML
@@ -75,6 +76,10 @@ public class EventManagerController {
     }
 
     @FXML
+    private void vista() {
+        storageManager.save();
+    }
+
     private void save(Object nameString, int year, int month, int day, String description, String flokkur) {
         ArrayList<Object> objects = new ArrayList<Object>();
         objects.add(nameString);
@@ -139,6 +144,7 @@ public class EventManagerController {
             Button tempButton = new Button("" + (i + 1));
             if (events.containsKey((i + 1))) {
                 String litur = storageManager.getStored(events.get((i + 1))).get(5).toString();
+                
                 tempButton.setBackground(Background.fill(Paint.valueOf(litur)));
 
                 
