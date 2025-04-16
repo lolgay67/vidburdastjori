@@ -48,9 +48,10 @@ public class EventManagerController {
     private String[] months = new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
             "Nov", "Dec" };
     private String[] dayStrings = new String[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
-    private String[] flokkar = new String[] { "Skemmtun", "Vinna", "Fundur" };
+    //private String[] flokkar = new String[] { "#34bdeb", "#eb5234", "#ebe134" };
     private StorageManager storageManager = new StorageManager();
     private HashMap<Calendar, String> eventDays = new HashMap<Calendar, String>();
+
 
     @FXML
     public void switchToLicense() throws IOException {
@@ -74,13 +75,14 @@ public class EventManagerController {
     }
 
     @FXML
-    private void save(Object nameString, int year, int month, int day, String description) {
+    private void save(Object nameString, int year, int month, int day, String description, String flokkur) {
         ArrayList<Object> objects = new ArrayList<Object>();
         objects.add(nameString);
         objects.add(year);
         objects.add(month);
         objects.add(day);
         objects.add(description);
+        objects.add(flokkur);
         storageManager.store(objects);
         eventDays = storageManager.getDateName();
     }
@@ -136,7 +138,10 @@ public class EventManagerController {
             int i = j;
             Button tempButton = new Button("" + (i + 1));
             if (events.containsKey((i + 1))) {
-                tempButton.setBackground(Background.fill(Paint.valueOf("#f2c2f2")));
+                String litur = storageManager.getStored(events.get((i + 1))).get(5).toString();
+                tempButton.setBackground(Background.fill(Paint.valueOf(litur)));
+
+                
                 tempButton.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent e) {
@@ -186,6 +191,7 @@ public class EventManagerController {
     @FXML
     public void generateEvent() {
         eventdialog.getChildren().clear();
+        final String[] flokkur = new String[1];
         TextField text = new TextField("Nafn viðburðar.");
         eventdialog.getChildren().add(text);
         DatePicker datePicker = new DatePicker(
@@ -200,7 +206,7 @@ public class EventManagerController {
             public void handle(ActionEvent e) {
                 LocalDate tempDate = datePicker.getValue();
                 save(((Object) text.getText()), tempDate.getYear(), tempDate.getMonth().getValue(),
-                        tempDate.getDayOfMonth(), description.getText());
+                        tempDate.getDayOfMonth(), description.getText(), flokkur[0]);
                 generateMonth();
             }
         });
@@ -213,18 +219,30 @@ public class EventManagerController {
             }
         });
         HBox buttonContainer = new HBox();
-        MenuBar menuBar = new MenuBar();
-        Menu menu = new Menu("Flokkar");
         MenuItem skemmtun = new MenuItem("Skemmtun");
-        skemmtun.setOnAction(e -> Skemmtun());
+        skemmtun.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                flokkur[0] = "#34bdeb";
+            }
+        });
         MenuItem vinna = new MenuItem("Vinna");
-        vinna.setOnAction(e -> Vinna());
+        vinna.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                flokkur[0] = "#ebe134";
+            }
+        });
         MenuItem fundur = new MenuItem("Fundur");
-        fundur.setOnAction(e -> Fundur());
-        menuBar.getMenus().add(menu);
-        menu.getItems().add(skemmtun);
-        menu.getItems().add(vinna);
-        menu.getItems().add(fundur);
+        fundur.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                flokkur[0] = "#eb34c6";
+            }
+        });
+        MenuButton menuBar = new MenuButton("Flokkar", null, skemmtun, vinna, fundur);
+        HBox menuButtonitems = new HBox(menuBar);
+        eventdialog.getChildren().add(menuButtonitems);
         buttonContainer.setAlignment(Pos.CENTER_RIGHT);
         buttonContainer.getChildren().add(saveButton);
         buttonContainer.getChildren().add(deleteButton);
@@ -238,6 +256,7 @@ public class EventManagerController {
         ArrayList<Object> details = storageManager.getStored(name);
 
         eventdialog.getChildren().clear();
+        String[] flokkur = new String[1];
         TextField text = new TextField(String.valueOf(details.get(0)));
         eventdialog.getChildren().add(text);
         DatePicker datePicker = new DatePicker(
@@ -256,7 +275,7 @@ public class EventManagerController {
             public void handle(ActionEvent e) {
                 LocalDate tempDate = datePicker.getValue();
                 save(((Object) text.getText()), tempDate.getYear(), tempDate.getMonth().getValue(),
-                        tempDate.getDayOfMonth(), description.getText());
+                        tempDate.getDayOfMonth(), description.getText(), flokkur[0]);
                 generateMonth();
             }
         });
@@ -269,18 +288,31 @@ public class EventManagerController {
             }
         });
         HBox buttonContainer = new HBox();
-        MenuBar menuBar = new MenuBar();
-        Menu menu = new Menu("Flokkar");
+        
         MenuItem skemmtun = new MenuItem("Skemmtun");
-        skemmtun.setOnAction(e -> Skemmtun());
+        skemmtun.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                flokkur[0] = "#34bdeb";
+            }
+        });
         MenuItem vinna = new MenuItem("Vinna");
-        vinna.setOnAction(e -> Vinna());
+        vinna.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                flokkur[0] = "#ebe134";
+            }
+        });
         MenuItem fundur = new MenuItem("Fundur");
-        fundur.setOnAction(e -> Fundur());
-        menuBar.getMenus().add(menu);
-        menu.getItems().add(skemmtun);
-        menu.getItems().add(vinna);
-        menu.getItems().add(fundur);
+        fundur.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                flokkur[0] = "#eb34c6";
+            }
+        });
+        MenuButton menuBar = new MenuButton("Flokkar", null, skemmtun, vinna, fundur);
+        HBox menuButtonitems = new HBox(menuBar);
+        eventdialog.getChildren().add(menuButtonitems);
         buttonContainer.setAlignment(Pos.CENTER_RIGHT);
         buttonContainer.getChildren().add(saveButton);
         buttonContainer.getChildren().add(deleteButton);
@@ -293,15 +325,4 @@ public class EventManagerController {
         eventDays = storageManager.getDateName();
     }
 
-    public void Skemmtun() {
-
-    }
-
-    public void Vinna() {
-
-    }
-
-    public void Fundur() {
-
-    }
 }
