@@ -198,6 +198,7 @@ public class EventManagerController {
     public void generateEvent() {
         eventdialog.getChildren().clear();
         final String[] flokkur = new String[1];
+        flokkur[0] = "#facafa";
         TextField text = new TextField("Nafn viðburðar.");
         eventdialog.getChildren().add(text);
         DatePicker datePicker = new DatePicker(
@@ -274,6 +275,7 @@ public class EventManagerController {
         eventdialog.getChildren().add(datePicker);
         TextField description = new TextField(String.valueOf(details.get(4)));
         eventdialog.getChildren().add(description);
+        flokkur[0] = String.valueOf(details.get(5));
 
         Button saveButton = new Button("Vista.");
         saveButton.setOnAction(new EventHandler<ActionEvent>() {

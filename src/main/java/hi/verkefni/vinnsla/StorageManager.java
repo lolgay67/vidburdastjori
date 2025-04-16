@@ -67,7 +67,9 @@ public class StorageManager {
     public void removeStored(String name) {
         storage.remove(name);
     }
-
+    /**
+     * tries to save self to file
+     */
     public void save() {
         try 
         {
@@ -86,18 +88,21 @@ public class StorageManager {
             e.printStackTrace();
         }
     }
+    /**
+     * tries to load from saved file
+     */
     public void load() {
         try  
         {
-
             ObjectInputStream load = new ObjectInputStream(new FileInputStream("events.ser"));
             ArrayList<Object> obi2 = new ArrayList<Object>();
             obi2 =  (ArrayList<Object>) load.readObject();
-            Object[] obi3 = new Object[6];
-            for (int i = 0; i < obi2.size(); i++) {
-                obi3[i%6] = obi2.get(i);
+            ArrayList<Object> obi3 = new ArrayList<Object>();
+            for (int i = 0; i < (obi2.size()); i++) {
+                obi3.add(obi2.get(i));
                 if ((i + 1)%6 == 0) {
-                    store(new ArrayList<Object>(Arrays.asList(obi3)));
+                    store(obi3);
+                    obi3.removeAll(obi3);
                 }
             }
             load.close();
