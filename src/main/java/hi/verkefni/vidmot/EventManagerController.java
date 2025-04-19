@@ -52,34 +52,57 @@ public class EventManagerController {
     private StorageManager storageManager = new StorageManager();
     private HashMap<Calendar, String> eventDays = new HashMap<Calendar, String>();
 
-
+    /**
+     * Shows the license and help screen.
+     * @throws IOException javafx error handling.
+     */
     @FXML
     public void switchToLicense() throws IOException {
         App.setRoot("license");
     }
 
+    /**
+     * Tries to load saved storagemanager from disk but unfortionetly this function doesnt quite work.
+     */
     @FXML
     private void open() {
         storageManager.load();
         generateMonth();
     }
 
+    /**
+     * exits the program sending a no errors code.
+     */
     @FXML
     private void exit() {
         System.exit(0);
-        ;
     }
 
+    /**
+     * lets fxml elements call the generateEvent function creating a new event.
+     */
     @FXML
     private void nytt() {
         generateEvent();
     }
 
+    /**
+     * Saves all events to disk, unfortionetly loading them doesnt work.
+     */
     @FXML
     private void vista() {
         storageManager.save();
     }
 
+    /**
+     * saves given event to the storage manager.
+     * @param nameString name of the event
+     * @param year year of the event
+     * @param month INTEGER month of the event
+     * @param day day of the month
+     * @param description desctiption of the event
+     * @param flokkur the type of event
+     */
     private void save(Object nameString, int year, int month, int day, String description, String flokkur) {
         ArrayList<Object> objects = new ArrayList<Object>();
         objects.add(nameString);
@@ -92,6 +115,9 @@ public class EventManagerController {
         eventDays = storageManager.getDateName();
     }
 
+    /**
+     * The fxmlloader calls this function when the file is first loaded.
+     */
     @FXML
     public void initialize() {
         today = Calendar.getInstance();
@@ -114,6 +140,9 @@ public class EventManagerController {
         generateMonth();
     }
 
+    /**
+     * Generates a calendar dialog inside the calendarNode area of the fxml file.
+     */
     private void generateMonth() {
         int year = firstOfMonth.get(firstOfMonth.YEAR);
         int month = firstOfMonth.get(firstOfMonth.MONTH);
@@ -170,6 +199,11 @@ public class EventManagerController {
 
     }
 
+    /**
+     * TO check how many days in this month.
+     * @param month the month to check, integer that starts at 0
+     * @return the days in the month.
+     */ 
     private int daysInMonth(int month) {
 
         if (today.get(today.YEAR) % 4 == 0) {
@@ -180,6 +214,9 @@ public class EventManagerController {
         return monthArray[month];
     }
 
+    /**
+     * Increases the month of the calendar by one.
+     */
     @FXML
     public void increaseOffset() {
         today.roll(today.MONTH, 1);
@@ -187,6 +224,9 @@ public class EventManagerController {
         generateMonth();
     }
 
+    /**
+     * decreases the month of the calendar by one.
+     */
     @FXML
     public void decreaseOffset() {
         today.roll(today.MONTH, -1);
@@ -194,6 +234,9 @@ public class EventManagerController {
         generateMonth();
     }
 
+    /**
+     * Creates a new empty event.
+     */
     @FXML
     public void generateEvent() {
         eventdialog.getChildren().clear();
@@ -258,6 +301,10 @@ public class EventManagerController {
 
     }
 
+    /**
+     * Loads a event with the given name
+     * @param name the name of the event to load.
+     */
     @FXML
     public void generateEvent(String name) {
         ArrayList<Object> details = storageManager.getStored(name);
@@ -328,6 +375,10 @@ public class EventManagerController {
         eventdialog.getChildren().add(buttonContainer);
 
     }
+    /**
+     * Deletes a event with a given name
+     * @param name the name of the event to delete
+     */
     private void delete(String name){
         storageManager.removeStored(name);
         eventDays = storageManager.getDateName();
