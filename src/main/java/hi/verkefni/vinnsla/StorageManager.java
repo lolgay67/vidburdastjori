@@ -1,19 +1,13 @@
 package hi.verkefni.vinnsla;
 
 import java.io.FileOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
 import java.util.Calendar;
-import java.util.Arrays;
 
 public class StorageManager {
     private HashMap<String, ArrayList<Object>> storage = new HashMap<String, ArrayList<Object>>();
@@ -96,6 +90,8 @@ public class StorageManager {
         {
             ObjectInputStream load = new ObjectInputStream(new FileInputStream("events.ser"));
             ArrayList<Object> obi2 = new ArrayList<Object>();
+            // if your ide complains about the error below you do not need to worry 
+            // the events are saved as a arraylist so this typecast does not need to be checked.
             obi2 =  (ArrayList<Object>) load.readObject();
             ArrayList<Object> obi3 = new ArrayList<Object>();
             for (int i = 0; i < (obi2.size()); i++) {
